@@ -33,6 +33,7 @@
 """Tests for handshake._base module."""
 
 
+from __future__ import absolute_import
 import unittest
 
 import set_sys_path  # Update sys.path to locate mod_pywebsocket module.
@@ -43,6 +44,7 @@ from mod_pywebsocket.common import format_extensions
 from mod_pywebsocket.common import parse_extensions
 from mod_pywebsocket.handshake._base import HandshakeException
 from mod_pywebsocket.handshake._base import validate_subprotocol
+from six.moves import zip
 
 
 class ValidateSubprotocolTest(unittest.TestCase):

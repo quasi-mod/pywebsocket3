@@ -33,12 +33,15 @@
 """Tests for memorizingfile module."""
 
 
+from __future__ import absolute_import
 import StringIO
 import unittest
 
 import set_sys_path  # Update sys.path to locate mod_pywebsocket module.
 
 from mod_pywebsocket import memorizingfile
+from six.moves import range
+from six.moves import zip
 
 
 class UtilTest(unittest.TestCase):

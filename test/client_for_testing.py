@@ -45,6 +45,7 @@ This code is far from robust, e.g., we cut corners in handshake.
 """
 
 
+from __future__ import absolute_import
 import base64
 import errno
 import logging
@@ -392,7 +393,7 @@ class WebSocketHandshake(object):
         # Validate
         try:
             decoded_accept = base64.b64decode(accept)
-        except TypeError, e:
+        except TypeError as e:
             raise HandshakeException(
                 'Illegal value for header Sec-WebSocket-Accept: ' + accept)
 
@@ -620,7 +621,7 @@ def connect_socket_with_retry(host, port, timeout, use_tls,
             if use_tls:
                 return _TLSSocket(s)
             return s
-        except socket.error, e:
+        except socket.error as e:
             if e.errno != errno.ECONNREFUSED:
                 raise
             else:
@@ -685,7 +686,7 @@ class Client(object):
     def assert_connection_closed(self):
         try:
             read_data = receive_bytes(self._socket, 1)
-        except Exception, e:
+        except Exception as e:
             if str(e).find(
                 'Connection closed before receiving requested length ') == 0:
                 return
