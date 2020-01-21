@@ -34,7 +34,7 @@
 """
 
 
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import sys
 
 
@@ -56,9 +56,9 @@ if _USE_FAST_MASKING:
 
 setup(author='Yuzo Fujishima',
       author_email='yuzo@chromium.org',
-      description='WebSocket extension for Apache HTTP Server.',
+      description='Standalone WebSocket Server for testing purposes.',
       long_description=(
-              'mod_pywebsocket is an Apache HTTP Server extension for '
+              'mod_pywebsocket is an Standalone Server for'
               'the WebSocket Protocol (RFC 6455). '
               'See mod_pywebsocket/__init__.py for more detail.'),
       license='See LICENSE',
@@ -68,6 +68,8 @@ setup(author='Yuzo Fujishima',
       # See the source of distutils.version, distutils.versionpredicate and
       # distutils.dist to understand how to name version numbers.
       version='0.7.9',
+      install_requires=[
+            'six'],
       )
 
 
