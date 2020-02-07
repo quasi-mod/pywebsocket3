@@ -99,10 +99,6 @@ def _method_line(resource):
     return 'GET %s HTTP/1.1\r\n' % resource
 
 
-def _sec_origin_header(origin):
-    return 'Sec-WebSocket-Origin: %s\r\n' % origin.lower()
-
-
 def _origin_header(origin):
     # 4.1 13. concatenation of the string "Origin:", a U+0020 SPACE character,
     # and the /origin/ value, converted to ASCII lowercase, to /fields/.
@@ -303,10 +299,7 @@ class WebSocketHandshake(object):
                                 self._options.server_port,
                                 self._options.use_tls))
 
-        if self._options.version is 8:
-            fields.append(_sec_origin_header(self._options.origin))
-        else:
-            fields.append(_origin_header(self._options.origin))
+        fields.append(_origin_header(self._options.origin))
 
         original_key = os.urandom(16)
         key = base64.b64encode(original_key)

@@ -358,48 +358,4 @@ class _RFC1979Inflater(object):
         return self._inflater.decompress(-1)
 
 
-class DeflateSocket(object):
-    """A wrapper class for socket object to intercept send and recv to perform
-    deflate compression and decompression transparently.
-    """
-
-    # Size of the buffer passed to recv to receive compressed data.
-    _RECV_SIZE = 4096
-
-    def __init__(self, socket):
-        self._socket = socket
-
-        self._logger = get_class_logger(self)
-
-        self._deflater = _Deflater(zlib.MAX_WBITS)
-        self._inflater = _Inflater(zlib.MAX_WBITS)
-
-    def recv(self, size):
-        """Receives data from the socket specified on the construction up
-        to the specified size. Once any data is available, returns it even
-        if it's smaller than the specified size.
-        """
-
-        # TODO(tyoshino): Allow call with size=0. It should block until any
-        # decompressed data is available.
-        if size <= 0:
-            raise Exception('Non-positive size passed')
-        while True:
-            data = self._inflater.decompress(size)
-            if len(data) != 0:
-                return data
-
-            read_data = self._socket.recv(DeflateSocket._RECV_SIZE)
-            if not read_data:
-                return b''
-            self._inflater.append(read_data)
-
-    def sendall(self, bytes):
-        self.send(bytes)
-
-    def send(self, bytes):
-        self._socket.sendall(self._deflater.compress_and_flush(bytes))
-        return len(bytes)
-
-
 # vi:sts=4 sw=4 et
